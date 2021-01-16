@@ -32,11 +32,20 @@ func NewBadNotFoundError(message string) *RestErr {
 	}
 }
 
+func newUnauthorizedError(message string) *RestErr {
+	return &RestErr{
+		Message: "unable to retrieve user infornation from given access_token",
+		Status:  http.StatusUnauthorized,
+		Error:   "unauthorized",
+	}
+}
+
 func NewInternalServerError(message string, err error) *RestErr {
 	result := &RestErr{
 		Status:  http.StatusInternalServerError,
 		Message: message,
 		Error:   "Internal server error",
+		Causes:  []interface{}{err},
 	}
 
 	if err != nil {
